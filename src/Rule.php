@@ -43,6 +43,11 @@ abstract class Rule
         $this->validation = $validation;
     }
 
+    public function getValidation()
+    {
+        return $this->validation;
+    }
+
     /**
      * Set key
      *
