@@ -489,13 +489,16 @@ class Validation
             }
             $params = [];
 
+
             if (is_string($rule)) {
                 list($rulename, $params) = $this->parseRule($rule);
                 $validator = call_user_func_array($validatorFactory, array_merge([$rulename], $params));
             } elseif ($rule instanceof Rule) {
                 $validator = $rule;
             } elseif ($rule instanceof Closure) {
-                $validator = call_user_func_array($validatorFactory, ['callback', $rule]);
+                $ruleName = is_string($i) ? $i : 'callback';
+                $validator = call_user_func_array($validatorFactory, ['callback', $rule ]);
+                $validator->setKey($ruleName);
             } else {
                 $ruleName = is_object($rule) ? get_class($rule) : gettype($rule);
                 $message = "Rule must be a string, Closure or '".Rule::class."' instance. ".$ruleName." given";
